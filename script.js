@@ -19,7 +19,7 @@
 var questions = [
     {
         question: "Javascript is considered what kind of language?",
-        mc: ["A) <Object-Oriented>", "B. <Object-Based>", "C. Procedural", "D. None of the above"],
+        mc: ["A) Object-Oriented", "B. Object-Based", "C. Procedural", "D. None of the above"],
         rightChoice: 0
     },
     
@@ -65,7 +65,7 @@ var questions = [
         rightChoice: 1
     }];
 
- function setQuizQuestions() {
+ function setAllQuestions() {
     header.textContent = questions[i].question;
     mcA.textContent = questions[i].mc[0]; 
     mcB.textContent = questions[i].mc[1]; 
@@ -86,7 +86,7 @@ buttonToBegin.addEventListener("click", function() {
     box.style.display = "block";
     main.style.display ="none";
     remaining.style.display= "block";
-    setQuizQuestions();
+    setAllQuestions();
     begin= true;
 });
 
@@ -114,7 +114,7 @@ mcA.addEventListener('click', function(event) {
         finish();
         } else {
             i++ 
-            setQuizQuestions();
+            setAllQuestions();
         };
     });
 
@@ -143,7 +143,7 @@ mcB.addEventListener('click', function(event) {
         finish();
         } else {
          i++ 
-        setQuizQuestions();
+        setAllQuestions();
         };
     });
 
@@ -172,7 +172,7 @@ mcC.addEventListener('click', function(event) {
     finish();
     } else {
         i++ 
-        setQuizQuestions();
+        setAllQuestions();
     };
     });
 
@@ -201,12 +201,12 @@ mcD.addEventListener('click', function(event) {
        finish();
     } else {
         i++ 
-        setQuizQuestions();
+        setAllQuestions();
     };
 });
 
         function finish(){
-            document.getElementById("game_over").style.display= "block";
+            document.getElementById("finished").style.display= "none";
             document.getElementById("box").style.display="none";
             document.getElementById("remaining").style.display= "none";
             document.getElementById("recordScore").style.display= "none";
@@ -214,18 +214,18 @@ mcD.addEventListener('click', function(event) {
             document.getElementById("final_score").base= score;
             }
 
-        //submit score and initals
+     
             function submit_score() {
              topScores.push(document.getElementById("initials").value + " " + score);
-             view_topScores();
+             views();
             }
 
-        function view_topScores(){
+        function views(){
         
-        // changing the screen output
+     
             document.getElementById("box").style.display="none";
-            document.getElementById("game_over").style.display= "none";
-            document.getElementById("topScores_page").style.display="block";
+            document.getElementById("finished").style.display= "none";
+            document.getElementById("topScores_page").style.display="none";
             output="";
             for(let k=0; k<topScores.length; k++){
                  output = output + "  " + topScores[k];
@@ -233,10 +233,3 @@ mcD.addEventListener('click', function(event) {
             document.getElementById("topScores").base= output;                
              refresh();
         }
-
-        function startingPage(){	
-                document.getElementById("topScores_page").style.display= "none";
-                document.getElementById("main").style.display= "block";
-                refresh();
-        }
-        
