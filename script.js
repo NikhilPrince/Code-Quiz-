@@ -1,69 +1,242 @@
+ var buttonToBegin = document.getElementById("buttonToBegin");
+ var time = 90;
+ var countDown = true;
+ var begin= false;
+ var remaining = document.getElementById("remaining");
+ var main =  document.getElementById("main");
+ var box = document.getElementById("box");
+ var header = document.getElementById("header");
+ var mcA = document.getElementById("mcA");
+ var mcB = document.getElementById("mcB");
+ var mcC = document.getElementById("mcC");
+ var mcD = document.getElementById("mcD");
+ var rightChoice = document.getElementById("rightChoice");    
+ var topScores= [];
+ var startingScore = 0;
+ let i = 0;
+
+
 var questions = [
     {
         question: "Javascript is considered what kind of language?",
-        choices: ["A. Object-Oriented", "B. Object-Based", "C. Procedural", "D. None of the above"],
-        answer: "A. Object-oriented"
+        mc: ["A) <Object-Oriented>", "B. <Object-Based>", "C. Procedural", "D. None of the above"],
+        rightChoice: 0
     },
     
     {
         question: "Which of the following keyword is used to define a variable in Javascript?",
-        choices: ["A. var", "B. let", "C. Both A and B", "D. None of the above"],
-        answer: "C. Both A and B"
+        mc: ["A. var", "B. let", "C. Both A and B", "D. None of the above"],
+        rightChoice: 2
     },
     
     {
         question: "Which of the following methods is used to access HTML elements using Javascript?",
-        choices: ["A. getElementbyId()", "B. getElementsByClassName()", "C. Both A and B", "D. None of the above"],
-        answer: "C. Both A and B"
+        mc: ["A. getElementById()", "B. getElementsByClassName()", "C. Both A and B", "D. None of the above"],
+        rightChoice: 2
     },
     
     {
         question: "Upon encountering empty statements, what does the Javascript Interpreter do?",
-        choices: ["A. Throws an error", "B. Ignores the statement", "C. Gives a warning", "D. None of the above"],
-        answer: "B. Ignores the statement"
+        mc: ["A. Throws an error", "B. Ignores the statement", "C. Gives a warning", "D. None of the above"],
+        rightChoice: 1
     },
     
     {
         question: "Which of the following methods can be used to display data in some form using Javascript?",
-        choices: ["A. document.write()", "B. console.log()", "C. window.alert()", "D. All of the above"],
-        answer: "D. All of the above"
+        mc: ["A. document.write()", "B. console.log()", "C. window.alert()", "D. All of the above"],
+        rightChoice: 3
     },
     
     {
         question: "How can a datatype be declared to be a constant type?",
-        choices: ["A. const", "B. var", "C. let", "D. constant"],
-        answer: "A. const"
+        mc: ["A. const", "B. var", "C. let", "D. constant"],
+        rightChoice: 0
     },
     
     {
         question: "What keyword is used to declare an asychronous function in Javascript?",
-        choices: ["A. async", "B. await", "C. setTimeout", "D. None of the above"],
-        answer: "A. async"
+        mc: ["A. async", "B. await", "C. setTimeout", "D. None of the above"],
+        rightChoice: 0
     },
     
     {
         question: "How do you write a comment in Javascript?",
-        choices: ["A. /* */", "B. //", "C. #", "D. $$"],
-        answer: "B. //"
-    },
-    
-    {
-        question: "Which of the following is not a Javascript framework?",
-        choices: ["A. Node", "B. Vue", "C. React", "D. Cassandra"],
-        answer: "D. Cassandra"
-    },
-    
-    {
-        question: "Which of the following are closures in Javascript?",
-        choices: ["A. Variables", "B. Functions", "C. Objects", "D. Allof the above"],
-        answer: "D. All of the above"
-    },
-    
-    ];
+        mc: ["A. /* */", "B. //", "C. #", "D. $$"],
+        rightChoice: 1
+    }];
 
-    var clock = document.querySelector("#clock");
-    var remaingTime = document.querySelector('#remaingTime');
-    var finished = document.querySelector('#finished');
+ function setQuizQuestions() {
+    header.textContent = questions[i].question;
+    mcA.textContent = questions[i].mc[0]; 
+    mcB.textContent = questions[i].mc[1]; 
+    mcC.textContent = questions[i].mc[2]; 
+    mcD.textContent = questions[i].mc[3]; 
+    };
 
-    var beginDiv = document.querySelector('#beginDiv');
-    var beginQuizBtn = document.querySelector('#begin-quiz-button')
+var remainingInterval = setInterval(remaining, 1000);
+function setRemaining() {
+        if (begin) time--;
+        if(time<= 0) {finish();
+        time = 0;  
+        }
+        document.getElementById("time").base = time;
+    }
+
+buttonToBegin.addEventListener("click", function() {
+    box.style.display = "block";
+    main.style.display ="none";
+    remaining.style.display= "block";
+    setQuizQuestions();
+    begin= true;
+});
+
+mcA.addEventListener('click', function(event) {
+        rightChoice= questions[i].rightChoice;
+        console.log("rightChoice " + rightChoice);
+        if (0 == rightChoice) { 
+            document.getElementById("say").base = "Correct!";
+            setTimeout(function() {
+            document.getElementById("say").base = "";
+                },
+                1000
+            );   
+            document.getElementById("score").base = score;
+        } else {
+            countDown -= 5;
+            document.getElementById("say").base = "Wrong!";
+            setTimeout(function() {
+                document.getElementById("say").base = "";
+                    },
+                    1000
+                );
+        }
+        if (i >= questions.length -1) {
+        finish();
+        } else {
+            i++ 
+            setQuizQuestions();
+        };
+    });
+
+mcB.addEventListener('click', function(event) {
+    rightChoice = questions[i].rightChoice;
+    console.log(rightChoice);
+        if (1 === rightChoice) { 
+            document.getElementById("say").base = "Correct!";
+            setTimeout(function() {
+                document.getElementById("say").base = "";
+                    },
+                    1000
+                );
+            score++;
+            document.getElementById("score").base = score;
+        } else {
+            countDown -= 5;
+            document.getElementById("say").base = "Wrong!";
+            setTimeout(function() {
+                document.getElementById("say").base = "";
+                    },
+                    1000
+                );
+        }
+        if (i >= questions.length -1) {
+        finish();
+        } else {
+         i++ 
+        setQuizQuestions();
+        };
+    });
+
+mcC.addEventListener('click', function(event) {
+    rightChoice = questions[i].rightChoice;
+    console.log(rightChoice);
+    if (2 === rightChoice) { 
+        document.getElementById("say").base = "Correct!";
+        setTimeout(function() {
+            document.getElementById("say").base = "";
+                },
+                1000
+            );
+        score++;
+        document.getElementById("score").base = score;
+    } else {
+        countDown -= 5;
+        document.getElementById("say").base = "Wrong!";
+        setTimeout(function() {
+            document.getElementById("say").base = "";
+                },
+                1000
+            );
+    }
+    if (i >= questions.length -1) {
+    finish();
+    } else {
+        i++ 
+        setQuizQuestions();
+    };
+    });
+
+mcD.addEventListener('click', function(event) {
+    rightChoice= questions[i].rightChoice.value;
+    console.log(rightChoice);
+    if (3 === rightChoice) { 
+        document.getElementById("say").base = "Correct!";
+        setTimeout(function() {
+            document.getElementById("say").base = "";
+                },
+                1000
+            );
+        score++;
+        document.getElementById("score").base = score;
+    } else {
+        countDown -= 5;
+        document.getElementById("say").base = "Wrong!";
+        setTimeout(function() {
+            document.getElementById("say").base = "";
+                },
+                1000
+            );
+    }
+    if (i >= questions.length -1) {
+       finish();
+    } else {
+        i++ 
+        setQuizQuestions();
+    };
+});
+
+        function finish(){
+            document.getElementById("game_over").style.display= "block";
+            document.getElementById("box").style.display="none";
+            document.getElementById("remaining").style.display= "none";
+            document.getElementById("recordScore").style.display= "none";
+            document.getElementById("say").base="";
+            document.getElementById("final_score").base= score;
+            }
+
+        //submit score and initals
+            function submit_score() {
+             topScores.push(document.getElementById("initials").value + " " + score);
+             view_topScores();
+            }
+
+        function view_topScores(){
+        
+        // changing the screen output
+            document.getElementById("box").style.display="none";
+            document.getElementById("game_over").style.display= "none";
+            document.getElementById("topScores_page").style.display="block";
+            output="";
+            for(let k=0; k<topScores.length; k++){
+                 output = output + "  " + topScores[k];
+            }
+            document.getElementById("topScores").base= output;                
+             refresh();
+        }
+
+        function startingPage(){	
+                document.getElementById("topScores_page").style.display= "none";
+                document.getElementById("main").style.display= "block";
+                refresh();
+        }
+        
